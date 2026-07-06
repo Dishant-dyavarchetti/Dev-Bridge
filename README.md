@@ -2,6 +2,9 @@
 
 DevBridge is an AI-powered mentoring platform designed to bridge the gap between beginner Python developers and open-source contributions. It assists developers in discovering suitable open-source repositories, understanding repository architecture, setting up their local environments, navigating contribution guidelines, and finding beginner-friendly issues to work on.
 
+> [!NOTE]
+> The Next.js web frontend is currently under construction and will be integrated with this backend AI service upon deployment.
+
 ---
 
 ## 🌟 Key Features
@@ -119,3 +122,8 @@ docker build -t devbridge-agent .
 docker run -p 8080:8080 --env-file .env devbridge-agent
 ```
 It is optimized for instant deployment to free-tier cloud containers (such as **Hugging Face Spaces**, **Render**, or **Railway**).
+
+---
+
+## 🔮 Future Expansion
+* **IDE Extension**: We plan to develop an IDE extension (e.g., VS Code or Cursor) so that developers can get real-time mentoring, codebase explanations, and execution instructions for contributing to open-source repositories directly within their active workspace.
