@@ -17,6 +17,7 @@ class UserIntent(StrEnum):
     CONTRIBUTE = "CONTRIBUTE"
     LEARN_PROJECT = "LEARN_PROJECT"
     ASK_QUESTION = "ASK_QUESTION"
+    SECURITY_VIOLATION = "SECURITY_VIOLATION"
 
 
 class WorkflowStage(StrEnum):

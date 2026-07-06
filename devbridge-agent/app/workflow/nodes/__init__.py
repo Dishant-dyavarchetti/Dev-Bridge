@@ -5,6 +5,7 @@ from .planner_node import PlannerNode
 from .repository_analysis import RepositoryAnalysisNode
 from .repository_discovery_node import RepositoryDiscoveryNode
 from .response_node import ResponseNode
+from .security_guard_node import SecurityGuardNode
 
 __all__ = [
     "ContributionNode",
@@ -14,4 +15,5 @@ __all__ = [
     "RepositoryAnalysisNode",
     "RepositoryDiscoveryNode",
     "ResponseNode",
+    "SecurityGuardNode",
 ]

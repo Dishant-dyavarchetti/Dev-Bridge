@@ -4,6 +4,7 @@ from .issue_output import IssueRecommendationOutput
 from .planner_output import PlannerOutput
 from .repository_output import RepositoryAnalysisOutput
 from .response_output import ResponseComposerOutput
+from .security_output import SecurityOutput
 
 __all__ = [
     "BaseAgentOutput",
@@ -12,4 +13,5 @@ __all__ = [
     "PlannerOutput",
     "RepositoryAnalysisOutput",
     "ResponseComposerOutput",
+    "SecurityOutput",
 ]

@@ -11,6 +11,7 @@ from app.workflow.nodes.planner_node import PlannerNode
 from app.workflow.nodes.repository_analysis import RepositoryAnalysisNode
 from app.workflow.nodes.repository_discovery_node import RepositoryDiscoveryNode
 from app.workflow.nodes.response_node import ResponseNode
+from app.workflow.nodes.security_guard_node import SecurityGuardNode
 
 
 def build_workflow(
@@ -19,7 +20,8 @@ def build_workflow(
     analysis_agent=None,
     contribution_agent=None,
     issue_agent=None,
-    response_agent=None
+    response_agent=None,
+    security_agent=None
 ) -> Workflow:
     """
     Build and compile the complete GraphFlow Workflow for DevBridge.
@@ -36,8 +38,11 @@ def build_workflow(
         from app.agents import issue_recommendation_agent as issue_agent
     if response_agent is None:
         from app.agents import response_composer_agent as response_agent
+    if security_agent is None:
+        from app.agents import security_guard_agent as security_agent
 
     # Instantiate the node class instances
+    security_node_inst = SecurityGuardNode(security_agent)
     planner_node_inst = PlannerNode(planner_agent)
     discovery_node_inst = RepositoryDiscoveryNode(discovery_agent)
     analysis_node_inst = RepositoryAnalysisNode(analysis_agent)
@@ -46,6 +51,9 @@ def build_workflow(
     response_node_inst = ResponseNode(response_agent)
 
     # Wrap them in plain functions so ADK detects their async/sync nature correctly
+    async def run_security(ctx: Any) -> Any:
+        return await security_node_inst(ctx)
+
     async def run_planner(ctx: Any) -> Any:
         return await planner_node_inst(ctx)
 
@@ -66,6 +74,7 @@ def build_workflow(
             yield event
 
     # Wrap the functions using ADK node helper to specify names
+    security_node = node(run_security, name="security_guard_node", rerun_on_resume=True)
     planner_node = node(run_planner, name="planner_node", rerun_on_resume=True)
     discovery_node = node(run_discovery, name="discovery_node", rerun_on_resume=True)
     analysis_node = node(run_analysis, name="analysis_node", rerun_on_resume=True)
@@ -76,8 +85,12 @@ def build_workflow(
 
     # Define the graph execution paths
     edges = [
-        # Entry point to PlannerNode
-        ("START", planner_node),
+        # Entry point to SecurityGuardNode
+        ("START", security_node),
+
+        # Routing based on Safety determination
+        Edge(from_node=security_node, to_node=planner_node, route="SAFE"),
+        Edge(from_node=security_node, to_node=response_node, route="UNSAFE"),
 
         # Routing based on Planner intent determination
         Edge(from_node=planner_node, to_node=discovery_node, route=UserIntent.DISCOVER_REPOSITORIES.value),
