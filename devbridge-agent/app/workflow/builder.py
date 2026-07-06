@@ -89,8 +89,10 @@ def build_workflow(
             UserIntent.FIND_BEGINNER_ISSUES.value,
             UserIntent.CONTRIBUTE.value,
             UserIntent.LEARN_PROJECT.value,
-            UserIntent.ASK_QUESTION.value,
         ]),
+
+        # Direct route for general follow-up questions to response node
+        Edge(from_node=planner_node, to_node=response_node, route=UserIntent.ASK_QUESTION.value),
 
         # Discovery flows directly to codebase analysis
         (discovery_node, analysis_node),

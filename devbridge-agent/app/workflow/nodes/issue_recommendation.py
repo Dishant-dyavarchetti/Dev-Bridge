@@ -14,6 +14,9 @@ class IssueRecommendationNode:
         user_request = state.get("user_request", "")
 
         if self.issue_agent:
+            import asyncio
+            # Space out parallel executions to prevent concurrent rate limit triggers
+            await asyncio.sleep(5.0)
             agent_output = await ctx.run_node(self.issue_agent, node_input=user_request)
             if isinstance(agent_output, dict):
                 from app.models.agent_outputs.issue_output import IssueRecommendationOutput

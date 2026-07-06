@@ -23,6 +23,10 @@ load_dotenv(pathlib.Path(__file__).parent / ".env")
 
 from google.adk.apps import App
 from app.workflow.graph import workflow
+from app.app_utils.db import init_db
+
+# Initialize database connection and create tables in Neon Console
+init_db()
 
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "False"
 # Pop GCP-specific env variables to avoid routing billing through suspended projects

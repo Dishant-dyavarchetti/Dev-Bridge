@@ -27,6 +27,6 @@ def get_secure_model(model_name: str) -> Gemini:
 
     return Gemini(
         model=model_name,
-        retry_options=types.HttpRetryOptions(attempts=5),
+        retry_options=types.HttpRetryOptions(attempts=6, initial_delay=12.0),
         safety_settings=safety_settings,
     )
