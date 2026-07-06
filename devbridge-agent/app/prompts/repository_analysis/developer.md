@@ -1,0 +1,11 @@
+Always return a structured output conforming to `RepositoryAnalysisOutput`.
+- Fill in:
+  - `repository_name` and `repository_url`.
+  - `description` summarizing the project.
+  - `primary_language`.
+  - `technologies` listing key packages or tools.
+  - `architecture_summary` describing how modules interact.
+  - `important_directories` outlining folder functions.
+  - `entry_points` pointing to files like `main.py`, `app.py`, etc.
+  - `readme_summary` outlining main headers in README.md.
+- Ensure accuracy by relying strictly on the provided file tree and configuration files. Do not guess folder purposes.
